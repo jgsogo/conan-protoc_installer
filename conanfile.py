@@ -3,9 +3,9 @@
 
 import os
 from conans import ConanFile, CMake, tools
+import cmake_generator
 
-
-class ProtobufConan(ConanFile):
+class ProtocInstallerConan(ConanFile):
     name = "protoc_installer"
     version = "3.6.1"
     url = "https://github.com/bincrafters/conan-protoc_installer"
@@ -15,7 +15,7 @@ class ProtobufConan(ConanFile):
     description = ("protoc is a compiler for protocol buffers definitions files. It can can "
                    "generate C++, Java and Python source code for the classes defined in PROTO_FILE.")
     license = "BSD-3-Clause"
-    exports = ["LICENSE.md"]
+    exports = ["LICENSE.md", "cmake_generator.py"]
     exports_sources = ["CMakeLists.txt", "protobuf.patch"]
     generators = "cmake"
     settings = "os_build", "arch_build"
