@@ -36,9 +36,18 @@ def _generator_cmake_find_package():
         @property
         def content(self):            
             content = super(ProtocCMakeGenerator, self).content
-            find_protoc = content.pop("Find{}.cmake".format("protoc_installer"))
+            
+            # I can inject the macro in the `Findprotoc_install.cmake` file
+            find_protoc = content.pop("Findprotoc_installer.cmake")
             find_protoc += _protoc_macro(self.deps_build_info)
-            content["Find{}.cmake".format("protoc_installer")] = find_protoc
+            content["Findprotoc_installer.cmake"] = find_protoc
+            
+            # ...but also in the `Findprotobuf.cmake` one
+            find_protobuf = content.pop("Findprotobuf.cmake", None)
+            if find_protobuf:
+                find_protobuf += _protoc_macro(self.deps_build_info)
+            content["Findprotobuf.cmake"] = find_protobuf
+
             return content
 
     registered_generators.add("cmake_find_package", ProtocCMakeGenerator, custom=True)
